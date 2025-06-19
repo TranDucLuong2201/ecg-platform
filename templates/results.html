@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ECG Analysis Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>ECG Analysis Results</h1>
+        
+        <div class="card my-4">
+            <div class="card-body">
+                <h2>Analysis Parameters</h2>
+                <table class="table">
+                    <tr><th>Filename</th><td>{{ params.filename }}</td></tr>
+                    <tr><th>Lead</th><td>{{ params.lead }}</td></tr>
+                    <tr><th>Start</th><td>{{ params.start }}</td></tr>
+                    <tr><th>End</th><td>{{ params.end }}</td></tr>
+                    <tr><th>FIR Window</th><td>{{ params.fir_window }}</td></tr>
+                    <tr><th>IIR Type</th><td>{{ params.iir_type }}</td></tr>
+                    <tr><th>Sampling     Frequency</th><td>{{ params.fs }} Hz</td></tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="mb-4">
+            <h3>Download Results</h3>
+            <div class="btn-group">
+                <a href="/download/frequency_response?{{ request.query_string }}" 
+                   class="btn btn-primary">Frequency Response</a>
+                <a href="/download/time_domain?{{ request.query_string }}" 
+                   class="btn btn-primary">Time Domain</a>
+                <a href="/download/frequency_domain?{{ request.query_string }}" 
+                   class="btn btn-primary">Frequency Domain</a>
+                <a href="/download_all?{{ request.query_string }}" 
+                   class="btn btn-success">Download All (ZIP)</a>
+            </div>
+        </div>
+        
+        <a href="/" class="btn btn-secondary">Back to Analysis</a>
+    </div>
+</body>
+</html>
