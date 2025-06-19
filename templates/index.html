@@ -21,6 +21,33 @@
         .animate-slideIn {
             animation: slideIn 0.3s ease-out forwards;
         }
+        @keyframes scaleHover {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        .hover-scale:hover {
+            animation: scaleHover 0.3s ease forwards;
+        }
+        /* Logo Hover Animation */
+        @keyframes logoGlow {
+            from {
+                transform: scale(1);
+                text-shadow: 0 0 0 rgba(59, 130, 246, 0);
+            }
+            to {
+                transform: scale(1.1);
+                text-shadow: 0 0 8px rgba(59, 130, 246, 0.7);
+            }
+        }
+        .logo-hover {
+            transition: all 0.3s ease;
+        }
+        .logo-hover:hover {
+            animation: logoGlow 0.3s ease forwards;
+        }
         /* Canvas Styling */
         #particleCanvas {
             position: absolute;
@@ -55,6 +82,14 @@
         .btn-outline-primary {
             @apply border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white;
         }
+        /* Team card styling */
+        .team-card {
+            @apply relative bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-all duration-300;
+        }
+        .team-card::before {
+            content: '';
+            @apply absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-purple-500;
+        }
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 relative overflow-x-hidden">
@@ -64,10 +99,10 @@
     <!-- Navigation Bar -->
     <nav class="bg-white dark:bg-gray-800 shadow-lg fixed w-full z-10">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold">ECG Platform</div>
+            <div class="text-2xl font-bold logo-hover cursor-pointer" onclick="showPage('home')">ECG Platform</div>
             <div class="flex space-x-4">
                 <button onclick="showPage('home')" class="nav-link px-4 py-2 rounded hover:bg-blue-500 hover:text-white transition duration-200">Home</button>
-                <button onclick="showPage('worldquant')" class="nav-link px-4 py-2 rounded hover:bg-blue-500 hover:text-white transition duration-200">WorldQuant</button>
+                <button onclick="showPage('team')" class="nav-link px-4 py-2 rounded hover:bg-blue-500 hover:text-white transition duration-200">Team</button>
                 <button onclick="showPage('docs')" class="nav-link px-4 py-2 rounded hover:bg-blue-500 hover:text-white transition duration-200">Docs</button>
                 <button onclick="showPage('simulation')" class="nav-link px-4 py-2 rounded hover:bg-blue-500 hover:text-white transition duration-200">Simulation</button>
                 <button onclick="toggleDarkMode()" class="px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200">
@@ -87,29 +122,96 @@
             <p class="text-lg text-center mb-8 max-w-2xl animate-fadeIn" style="animation-delay: 0.2s;">
                 Explore advanced ECG signal processing with cutting-edge filtering techniques, visualizations, and comprehensive reports.
             </p>
-            <button onclick="showPage('simulation')" class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition duration-300 animate-fadeIn glow" style="animation-delay: 0.4s;">
-                Start Analysis
-            </button>
+            <div class="flex space-x-4 mb-8 animate-fadeIn" style="animation-delay: 0.4s;">
+                <button onclick="showPage('simulation')" class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition duration-300 glow">
+                    Start Analysis
+                </button>
+                <button onclick="showPage('team')" class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition duration-300 glow">
+                    Meet the Team
+                </button>
+                <button onclick="showPage('docs')" class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition duration-300 glow">
+                    Documentation
+                </button>
+            </div>
+            <!-- Contact Section -->
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg mb-6 w-full max-w-2xl animate-fadeIn" style="animation-delay: 0.6s;">
+                <h2 class="text-2xl font-semibold mb-4 text-center">Contact Us</h2>
+                <p class="text-center mb-4">Got questions or feedback? Reach out to Nhóm Con Cá!</p>
+                <div class="flex flex-col items-center space-y-4">
+                    <a href="mailto:nhomconca@ecgplatform.com" class="text-blue-500 hover:underline">nhomconca@ecgplatform.com</a>
+                    <p class="text-gray-600 dark:text-gray-300">Or ping us on our socials for a quick chat!</p>
+                    <div class="flex space-x-4">
+                        <a href="https://twitter.com/nhomconca" target="_blank" class="text-blue-500 hover:text-blue-600">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                        <a href="https://github.com/TranDucLuong2201/ecg-platform" target="_blank" class="text-blue-500 hover:text-blue-600">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Copyright Section -->
+            <div class="text-center text-gray-500 dark:text-gray-400 text-sm animate-fadeIn" style="animation-delay: 0.8s;">
+                © 2025 Nhóm Con Cá. All rights reserved. Crafted with 🐟 and ❤️.
+            </div>
         </div>
 
-        <!-- WorldQuant Page -->
-        <div id="worldquant" class="page min-h-screen hidden flex-col justify-center items-center">
-            <h1 class="text-5xl font-bold mb-6 animate-fadeIn">WorldQuant Analytics</h1>
+        <!-- Team Members Page -->
+        <div id="team" class="page min-h-screen hidden flex-col justify-center items-center">
+            <h1 class="text-5xl font-bold mb-6 animate-fadeIn">Meet Our Team</h1>
             <p class="text-lg text-center mb-8 max-w-2xl animate-fadeIn" style="animation-delay: 0.2s;">
-                Dive into global data insights with our advanced analytics tools, inspired by quantitative analysis and signal processing.
+                Our quirky crew of ECG enthusiasts, rocking Minecraft vibes and signal processing wizardry!
             </p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg animate-fadeIn" style="animation-delay: 0.4s;">
-                    <h3 class="text-xl font-semibold mb-2">Data Visualization</h3>
-                    <p>Interactive charts for global ECG data trends.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl">
+                <div class="team-card p-6 animate-fadeIn hover-scale" style="animation-delay: 0.4s;">
+                    <div class="flex items-center mb-4">
+                        <img src="https://minecraft.wiki/images/SheepFace.png" alt="Sheep Avatar" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <h3 class="text-xl font-semibold">Trần Đức Lương</h3>
+                            <p class="text-gray-600 dark:text-gray-300">MSSV: 22130096</p>
+                        </div>
+                    </div>
+                    <p class="text-sm">Our resident "Sheep Whisperer" who tames noisy ECG signals with FIR filters like herding woolly mobs in Minecraft!</p>
                 </div>
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg animate-fadeIn" style="animation-delay: 0.6s;">
-                    <h3 class="text-xl font-semibold mb-2">Quantitative Analysis</h3>
-                    <p>Apply statistical models to ECG signals.</p>
+                <div class="team-card p-6 animate-fadeIn hover-scale" style="animation-delay: 0.6s;">
+                    <div class="flex items-center mb-4">
+                        <img src="https://minecraft.wiki/images/PigFace.png" alt="Pig Avatar" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <h3 class="text-xl font-semibold">Nguyễn Lê Hải Ngân</h3>
+                            <p class="text-gray-600 dark:text-gray-300">MSSV: 22130112</p>
+                        </div>
+                    </div>
+                    <p class="text-sm">The "Piggy Bank of Code," Ngân snorts out IIR filter designs faster than a pig chasing carrots!</p>
                 </div>
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg animate-fadeIn" style="animation-delay: 0.8s;">
-                    <h3 class="text-xl font-semibold mb-2">Real-time Insights</h3>
-                    <p>Monitor and analyze data in real time.</p>
+                <div class="team-card p-6 animate-fadeIn hover-scale" style="animation-delay: 0.8s;">
+                    <div class="flex items-center mb-4">
+                        <img src="https://minecraft.wiki/images/CowFace.png" alt="Cow Avatar" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <h3 class="text-xl font-semibold">Nguyễn Hồng Ngọc</h3>
+                            <p class="text-gray-600 dark:text-gray-300">MSSV: 22130118</p>
+                        </div>
+                    </div>
+                    <p class="text-sm">Our "Moo-ving Data Analyst," Ngọc milks ECG datasets for insights with spectral analysis prowess!</p>
+                </div>
+                <div class="team-card p-6 animate-fadeIn hover-scale" style="animation-delay: 1.0s;">
+                    <div class="flex items-center mb-4">
+                        <img src="https://minecraft.wiki/images/ChickenFace.png" alt="Chicken Avatar" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <h3 class="text-xl font-semibold">Thân Thành</h3>
+                            <p class="text-gray-600 dark:text-gray-300">MSSV: 22130167</p>
+                        </div>
+                    </div>
+                    <p class="text-sm">The "Clucking Coder," Thành lays golden algorithms to hatch smooth PDF reports from ECG data!</p>
+                </div>
+                <div class="team-card p-6 animate-fadeIn hover-scale" style="animation-delay: 1.2s;">
+                    <div class="flex items-center mb-4">
+                        <img src="https://minecraft.wiki/images/WolfFace.png" alt="Wolf Avatar" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <h3 class="text-xl font-semibold">Phan Chánh Tính</h3>
+                            <p class="text-gray-600 dark:text-gray-300">MSSV: 22130190</p>
+                        </div>
+                    </div>
+                    <p class="text-sm">Our "Howling Frontend Guru," Tính hunts down UI bugs with wolf-like precision to craft pixel-perfect interfaces!</p>
                 </div>
             </div>
         </div>
@@ -117,23 +219,64 @@
         <!-- Docs Page -->
         <div id="docs" class="page min-h-screen hidden">
             <h1 class="text-5xl font-bold mb-6 animate-fadeIn">Documentation</h1>
+            
+            <!-- Download Documentation Section -->
+            <div class="mt-6 bg-blue-50 dark:bg-blue-900 p-4 rounded-lg shadow-md animate-fadeIn" style="animation-delay: 0.1s;">
+                <h2 class="text-2xl font-semibold mb-3">Download Documentation</h2>
+                <p class="mb-4">You can download additional documentation and reports related to ECG signal analysis using the link below:</p>
+                <a href="https://drive.google.com/drive/folders/1HciM2EYXu2IArM2o3KBDRAEHtHfpnVwM?fbclid=IwY2xjawIyJcpleHRuA2FlbQIxMAABHdIsYzAGs9NNpIiuhbZL_DUDuB_7F7OTmUDdbHWEeRE7XRn_FkpBv1-CPA_aem_CNqV7khdwKVgZBVQOx5EDw" 
+                   target="_blank" 
+                   class="inline-block bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition">
+                   📄 Access Documentation on Google Drive
+                </a>
+            </div>
+            
+            <!-- Documentation Content -->
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg animate-fadeIn" style="animation-delay: 0.2s;">
                 <h2 class="text-2xl font-semibold mb-4">Getting Started</h2>
-                <p class="mb-4">This platform provides tools for ECG signal analysis, including FIR and IIR filtering, spectral analysis, and PDF report generation.</p>
+                <p class="mb-4">This platform provides tools for ECG signal analysis, including FIR and IIR filtering, spectral analysis, and PDF report generation. It leverages advanced digital signal processing techniques to denoise ECG signals, ensuring accurate analysis for medical diagnostics.</p>
+
+                <h3 class="text-xl font-semibold mb-2">Overview of ECG Signal Processing</h3>
+                <p class="mb-4">Electrocardiogram (ECG) signals represent the electrical activity of the heart, crucial for diagnosing cardiac conditions. These signals are prone to noise such as baseline wander (BLW), power line interference (PLI), high-frequency noise (HFN), and physiological artifacts (PA). Effective denoising using digital filters like FIR and IIR is essential to preserve key ECG features (P, QRS, T waves).</p>
+
+                <h3 class="text-xl font-semibold mb-2">FIR and IIR Filters</h3>
+                <p class="mb-4">The platform supports two primary filter types for ECG denoising:</p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><strong>FIR (Finite Impulse Response):</strong> Linear phase, inherently stable, ideal for preserving ECG waveform morphology. Uses windows like Hamming, Hann, Blackman, and Kaiser. Effective for BLW and EMG noise but requires higher computational resources.</li>
+                    <li><strong>IIR (Infinite Impulse Response):</strong> Computationally efficient, suitable for real-time applications. Uses approximations like Butterworth, Chebyshev I, Chebyshev II, and Elliptic. Excels at removing PLI and HFN but may introduce phase distortion.</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mb-2">Filter Application in ECG Denoising</h3>
+                <p class="mb-4">The platform processes ECG signals through a cascade of filters:</p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li>High-pass FIR filter (0.5 Hz cutoff) to remove BLW.</li>
+                    <li>Band-stop IIR filter (59.5–60.5 Hz) to eliminate PLI.</li>
+                    <li>Low-pass IIR filter (100 Hz cutoff) to suppress HFN.</li>
+                    <li>Moving average filter to smooth the signal.</li>
+                </ul>
+                <p class="mb-4">Hybrid FIR-IIR strategies combine the strengths of both filters, optimizing accuracy and efficiency.</p>
+
+                <h3 class="text-xl font-semibold mb-2">Experimental Insights</h3>
+                <p class="mb-4">Experiments using the MIT-BIH Arrhythmia Database (MLII lead, 360 Hz sampling) demonstrate:</p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><strong>FIR Filters:</strong> Blackman and Kaiser windows achieve high SNR (e.g., 4.4939 for dataset 121) and low MSE (e.g., 0.0655 for dataset 201), preserving ECG morphology.</li>
+                    <li><strong>IIR Filters:</strong> Elliptic filters outperform others with SNR up to 6.1666 (dataset 114) and MSE as low as 0.0236, ideal for PLI removal.</li>
+                    <li><strong>Comparison:</strong> IIR filters offer 25–35 dB SNR improvement with fewer computations (~30 multiplications/second for order 6) compared to FIR’s 15–20 dB (~640 multiplications/second for order 128).</li>
+                </ul>
+
                 <h3 class="text-xl font-semibold mb-2">API Endpoints</h3>
+                <p class="mb-4">Interact with the platform programmatically via:</p>
                 <ul class="list-disc pl-6 mb-4">
-                    <li><code>/api/analyze</code>: Analyze ECG signals with specified parameters.</li>
-                    <li><code>/generate_pdf</code>: Generate a PDF report of the analysis.</li>
-                    <li><code>/download/&lt;image_type&gt;</code>: Download individual plot images (frequency_response, time_domain, frequency_domain).</li>
+                    <li><code>/api/analyze</code>: Analyze ECG signals with specified parameters (lead, start/end samples, filter types).</li>
+                    <li><code>/generate_pdf</code>: Generate a PDF report of the analysis results.</li>
+                    <li><code>/download/<image_type></code>: Download plots (frequency_response, time_domain, frequency_domain) as PNG.</li>
                 </ul>
-                <h3 class="text-xl font-semibold mb-2">Filter Types</h3>
-                <p class="mb-4">Supported filters include:</p>
-                <ul class="list-disc pl-6 mb-4">
-                    <li>FIR: Hamming, Hann, Blackman, Kaiser windows</li>
-                    <li>IIR: Butterworth, Chebyshev I, Chebyshev II, Elliptic</li>
-                </ul>
+
                 <h3 class="text-xl font-semibold mb-2">Sample CSV Format</h3>
-                <p class="mb-4">Ensure your CSV includes columns like 'MLII' or other numeric data for ECG signals.</p>
+                <p class="mb-4">Upload CSV files with columns like 'MLII' containing numeric ECG data. Ensure compatibility with 360 Hz sampling and 11-bit resolution.</p>
+
+                <h3 class="text-xl font-semibold mb-2">Implementation Details</h3>
+                <p class="mb-4">Analysis is performed using MATLAB and Python, with FIR filters designed at order 300 and IIR filters at orders 1–3. SNR and MSE metrics evaluate filter performance, ensuring robust denoising while maintaining signal integrity.</p>
             </div>
         </div>
 
