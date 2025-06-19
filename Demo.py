@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file, jsonify
+from flask import Flask, request, send_file, jsonify, render_template
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
 import os
@@ -437,6 +437,10 @@ def download_image(image_type):
     except Exception as e:
         print(f"Error generating image: {str(e)}")
         return jsonify({'error': f'Failed to generate image: {str(e)}'}), 500
+
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 if __name__ == '__main__':
     import os
