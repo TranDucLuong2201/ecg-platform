@@ -1,6 +1,7 @@
 # 🫀 ECG Platform
 
-A **self-learning project** to simulate and visualize ECG (Electrocardiogram) signals in real-time using **vanilla HTML, CSS, and JavaScript** — no frameworks or libraries involved. This project is aimed at reinforcing core frontend development skills while building something interactive and medically inspired.
+A self-learning fullstack project that simulates and visualizes real-time ECG (Electrocardiogram) signals.  
+Built with **HTML, CSS, JavaScript**, and **Flask** (Python) for backend processing and data simulation.
 
 > 🔗 **Live Demo**: [ecg-platform-54mj.onrender.com](https://ecg-platform-54mj.onrender.com)
 
@@ -22,52 +23,62 @@ A **self-learning project** to simulate and visualize ECG (Electrocardiogram) si
 
 ## ✨ Features
 
-- 📈 Simulated ECG waveform animation
-- ⏯ Start/Stop waveform control
-- 📱 Responsive layout
-- 💡 Pure frontend implementation (no backend)
-- 🚀 Deployed using [Render](https://render.com)
+- 📈 Real-time ECG waveform simulation on browser
+- 🧠 Backend logic handled by **Flask**
+- 📦 API endpoint to serve ECG data dynamically
+- ⏯ Interactive controls (start/stop)
+- 📱 Responsive UI
+- 🧪 No external frontend libraries used
 
 ---
 
 ## 🛠 Tech Stack
 
-| Technology | Description                          |
-|------------|--------------------------------------|
-| HTML5      | Markup and structure                 |
-| CSS3       | Styling and layout                   |
-| JavaScript | ECG waveform logic and interactivity |
-| Render     | Hosting and deployment               |
+| Layer      | Technology               |
+|------------|--------------------------|
+| Frontend   | HTML5, CSS3, JavaScript  |
+| Backend    | Python + Flask           |
+| Hosting    | Render                   |
 
 ---
 
 ## 📷 Preview
 
-> *(Add a screenshot here if available)*
+> *(Insert image here if available)*
 
-You can see a live running version of the project at:  
-👉 [ecg-platform-54mj.onrender.com](https://ecg-platform-54mj.onrender.com)
+Live site 👉 [ecg-platform-54mj.onrender.com](https://ecg-platform-54mj.onrender.com)
 
 ---
 
 ## 📁 Project Structure
 
 ecg-platform/
-├── index.html # Main HTML page
-├── style.css # Custom CSS styles
-└── script.js # JavaScript for ECG simulation
-- `index.html`: Contains the structure of the ECG monitor and canvas.
-- `style.css`: Styles the layout to resemble a real ECG interface.
-- `script.js`: Generates real-time waveform animation using `<canvas>`.
+├── static/
+│ ├── style.css # Frontend styling
+│ └── script.js # JS logic to render ECG
+├── templates/
+│ └── index.html # Main HTML with Jinja2
+├── app.py # Flask app + API endpoint
+├── ecg_data.py # (Optional) ECG signal generator
+└── requirements.txt # Python dependencies
 
 ---
 
 ## 🚀 Getting Started
 
-You can run the project locally without any setup:
-
-### 1. Clone the repository
+### 1. Clone the repo
 
 ```bash
 git clone https://github.com/TranDucLuong2201/ecg-platform.git
 cd ecg-platform
+```
+# 2. Set up Python environment
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+# 3. Run the Flask server
+```bash
+python app.py
+```
